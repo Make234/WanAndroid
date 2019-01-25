@@ -198,7 +198,6 @@ public class ProjectListFragment extends BaseFragment {
     @Override
     public void onError(String msg) {
         super.onError(msg);
-        mBinding.multiModeView.setVisibility(View.VISIBLE);
         if (NetWorkUtils.isNetworkConnected()) {
             mBinding.multiModeView.showError();
         } else {

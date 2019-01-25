@@ -61,9 +61,11 @@ public class DrawerFragment extends BaseFragment<ResultBean> implements View.OnC
                 Glide.with(MyApplication.getInstance()).load(userImgUrl).into(mBinding.imgAvatar);
             }
             mBinding.tvName.setText(sharedPreferencesUtil.getUser().getUsername());
+            mBinding.imgAvatar.setClickable(false);
         } else {
             mBinding.imgAvatar.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(), R.drawable.img_avatar));
             mBinding.tvName.setText(getString(R.string.login));
+            mBinding.imgAvatar.setClickable(true);
         }
     }
 

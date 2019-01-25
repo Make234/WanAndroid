@@ -2,9 +2,7 @@ package com.zyh.wanandroid.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -14,6 +12,7 @@ import com.zyh.wanandroid.base.BaseActivity;
 import com.zyh.wanandroid.bean.HomePageDetail;
 import com.zyh.wanandroid.databinding.ActivityArticleListBinding;
 import com.zyh.wanandroid.utils.BaseOnClickListener;
+import com.zyh.wanandroid.utils.NetWorkUtils;
 import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.ArticleListViewModel;
 
@@ -53,7 +52,6 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
         adapter = new HomePageAdapter(mList, type == COLLECT_LIST);
         mBinding.listView.setAdapter(adapter);
         mBinding.listView.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.loadingProgress.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryDark), PorterDuff.Mode.MULTIPLY);
         mBinding.refreshLayout.setOnLoadmoreListener(refreshLayout -> {
             if (type == ARTICLE_LIST) {
                 viewModel.getArticleList(page, mArticleId);
@@ -80,7 +78,7 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
             homePageDetail = mList.get(position);
             if (homePageDetail.getCollect()) {
                 if (type == COLLECT_LIST) {
-                    viewModel.unCollect(mList.get(position).getId(),mList.get(position).getOriginId());
+                    viewModel.unCollect(mList.get(position).getId(), mList.get(position).getOriginId());
                 } else {
                     viewModel.unCollect(mList.get(position).getId());
                 }
@@ -148,6 +146,9 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
         if (page == 0) {
             mList.clear();
         }
+        if (page == 0 && data.isEmpty()) {
+            mBinding.multiModeView.showEmpty();
+        }
         int pageSize = 20;
         if (data.size() < pageSize) {
             adapter.setFooterView(View.inflate(this, R.layout.coupon_footer, null));
@@ -165,10 +166,14 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
 
     @Override
     public void onError(String msg) {
-        hideLoading();
         ToastUtils.toastShort(msg);
         mBinding.refreshLayout.finishRefresh(false);
         mBinding.refreshLayout.finishLoadmore(false);
+        if (NetWorkUtils.isNetworkConnected()) {
+            mBinding.multiModeView.showError();
+        } else {
+            mBinding.multiModeView.showNetWork();
+        }
     }
 
     @Override
@@ -178,11 +183,11 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
 
     @Override
     public void showLoading() {
-        mBinding.loadingProgress.setVisibility(View.VISIBLE);
+        mBinding.multiModeView.showLoading();
     }
 
     @Override
     public void hideLoading() {
-        mBinding.loadingProgress.setVisibility(View.GONE);
+        mBinding.multiModeView.setVisibility(View.GONE);
     }
 }

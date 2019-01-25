@@ -17,7 +17,8 @@
     <string name="user_name">请输入用户名</string>
     <string name="input_psw">请输入密码</string>
     <string name="input_psw_again">请确认密码</string>
-    <string name="go_register">如果您尚未注册，点击此处跳转注册页面</string>
+    <string name="go_register">还没有账号？去注册</string>
+    <string name="go_login">已有账号，去登陆</string>
     <string name="article_list">文章列表</string>
     <string name="out_login">退出登录</string>
     <string name="collect_list">收藏列表</string>

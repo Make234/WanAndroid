@@ -38,13 +38,11 @@ public class ArticleListViewModel extends BaseViewModel<HomePageDetail> {
             public void onError(Throwable e) {
                 d.dispose();
                 ArticleListViewModel.this.onError(e.getMessage());
-                ArticleListViewModel.this.hideLoading();
             }
 
             @Override
             public void onComplete() {
                 d.dispose();
-                ArticleListViewModel.this.hideLoading();
             }
         }, page, id);
     }
@@ -72,13 +70,11 @@ public class ArticleListViewModel extends BaseViewModel<HomePageDetail> {
             public void onError(Throwable e) {
                 d.dispose();
                 ArticleListViewModel.this.onError(e.getMessage());
-                ArticleListViewModel.this.hideLoading();
             }
 
             @Override
             public void onComplete() {
                 d.dispose();
-                ArticleListViewModel.this.hideLoading();
             }
         }, page);
     }

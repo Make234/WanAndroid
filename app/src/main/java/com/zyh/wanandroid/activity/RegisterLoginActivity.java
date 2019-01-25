@@ -3,6 +3,7 @@ package com.zyh.wanandroid.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.zyh.wanandroid.R;
@@ -20,9 +21,15 @@ import java.util.List;
 /**
  * @author zyh
  */
-public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implements View.OnClickListener {
+public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implements View.OnClickListener, TextWatcher {
+    private static final int LOGIN = 1;
+    private static final int REGISTER = 2;
     ActivityRegisterLoginBinding mBinding;
     String passWord;
+    /**
+     * LOGIN 登陆 REGISTER 注册
+     */
+    int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,34 +43,42 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
         hideLoading();
         mBinding.tvRegister.setOnClickListener(this);
         mBinding.tvOk.setOnClickListener(this);
+        mBinding.tetPsw.addTextChangedListener(this);
+        mBinding.tetPswAgain.addTextChangedListener(this);
+        mBinding.tetUserName.addTextChangedListener(this);
     }
 
     private void initToolbar() {
+        type = LOGIN;
         mBinding.toolbar.getLeftImageView().setOnClickListener(new BaseOnClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
                 finish();
             }
         });
-        mBinding.toolbar.getCenterTextView().setText(("登录"));
+        mBinding.toolbar.getCenterTextView().setText(("登陆"));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_register:
-                mBinding.tvRegister.setVisibility(View.GONE);
-                mBinding.tilPswAgain.setVisibility(View.VISIBLE);
-                mBinding.tvOk.setText("去注册");
-                mBinding.toolbar.getCenterTextView().setText(("注册"));
+                if (type == LOGIN) {
+                    type = REGISTER;
+                    mBinding.tilPswAgain.setVisibility(View.VISIBLE);
+                    mBinding.tvRegister.setText(getString(R.string.go_login));
+                    mBinding.tvOk.setText("去注册");
+                    mBinding.toolbar.getCenterTextView().setText(("注册"));
+                } else {
+                    type = LOGIN;
+                    mBinding.tilPswAgain.setVisibility(View.GONE);
+                    mBinding.tvRegister.setText(getString(R.string.go_register));
+                    mBinding.tvOk.setText("去登陆");
+                    mBinding.toolbar.getCenterTextView().setText(("登陆"));
+                }
                 break;
             case R.id.tv_ok:
-                String loginStr = "去登陆";
-                if (loginStr.equals(mBinding.tvOk.getText().toString())) {
-                    checkStyle(true);
-                } else {
-                    checkStyle(false);
-                }
+                checkStyle(type == LOGIN);
                 break;
             default:
                 break;
@@ -149,5 +164,24 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
     @Override
     public void hideLoading() {
         mBinding.loadingProgress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mBinding != null) {
+            mBinding.tilPsw.setError("");
+            mBinding.tilPswAgain.setError("");
+            mBinding.tilUserName.setError("");
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
