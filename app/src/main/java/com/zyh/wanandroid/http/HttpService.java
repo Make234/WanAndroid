@@ -159,4 +159,16 @@ public interface HttpService {
      */
     @GET("lg/collect/list/{page}/json")
     Observable<ResultBean<HomePageBean>> getCollectList(@Path("page") int page);
+
+
+    /**
+     * 搜索
+     *
+     * @param page 页数
+     * @param id   文章id
+     * @return ResultBean<HomePageBean>
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    Observable<ResultBean<HomePageBean>> getSearchList(@Path("page") int page, @Field("k") String key);
 }

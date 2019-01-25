@@ -3,7 +3,7 @@ package com.zyh.wanandroid.bean;
 import java.util.List;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/23
  */
 public class Project {

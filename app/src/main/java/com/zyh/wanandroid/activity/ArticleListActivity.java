@@ -25,6 +25,7 @@ import java.util.List;
 public class ArticleListActivity extends BaseActivity<HomePageDetail> {
     ActivityArticleListBinding mBinding;
     int mArticleId;
+    String mSearchKey;
     public static final String ARTICLE_ID = "article_id";
     int page = 0;
     private List<HomePageDetail> mList;
@@ -35,6 +36,7 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
     public static final String TITLE = "title";
     public static final int ARTICLE_LIST = 1;
     public static final int COLLECT_LIST = 2;
+    public static final int SEARCH_LIST = 3;
     private int type;
     private String mTitle;
 
@@ -52,20 +54,10 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
         adapter = new HomePageAdapter(mList, type == COLLECT_LIST);
         mBinding.listView.setAdapter(adapter);
         mBinding.listView.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.refreshLayout.setOnLoadmoreListener(refreshLayout -> {
-            if (type == ARTICLE_LIST) {
-                viewModel.getArticleList(page, mArticleId);
-            } else if (type == COLLECT_LIST) {
-                viewModel.getCollectList(page);
-            }
-        });
+        mBinding.refreshLayout.setOnLoadmoreListener(refreshLayout -> getData());
         mBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             page = 0;
-            if (type == ARTICLE_LIST) {
-                viewModel.getArticleList(page, mArticleId);
-            } else if (type == COLLECT_LIST) {
-                viewModel.getCollectList(page);
-            }
+            getData();
         });
         adapter.setOnItemClickListener((adapter, view, position) -> {
             HomePageDetail homePageDetail = mList.get(position);
@@ -93,14 +85,26 @@ public class ArticleListActivity extends BaseActivity<HomePageDetail> {
             viewModel.getArticleList(page, mArticleId);
         } else if (type == COLLECT_LIST) {
             viewModel.getCollectList(page);
+        } else if (type == SEARCH_LIST) {
+            viewModel.getSearchList(page, mSearchKey);
         }
+    }
 
+    private void getData() {
+        if (type == ARTICLE_LIST) {
+            viewModel.getArticleList(page, mArticleId);
+        } else if (type == COLLECT_LIST) {
+            viewModel.getCollectList(page);
+        } else if (type == SEARCH_LIST) {
+            viewModel.getSearchList(page, mSearchKey);
+        }
     }
 
     private void initParameter() {
         mTitle = getIntent().getStringExtra(TITLE);
         mArticleId = getIntent().getIntExtra(ARTICLE_ID, 0);
         type = getIntent().getIntExtra(TYPE, 0);
+        mSearchKey = getIntent().getStringExtra("key");
     }
 
     private void initToolbar() {

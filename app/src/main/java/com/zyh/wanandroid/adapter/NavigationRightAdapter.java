@@ -10,7 +10,7 @@ import com.zyh.wanandroid.bean.Navigation;
 import java.util.List;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/17
  */
 public class NavigationRightAdapter extends BaseQuickAdapter<Navigation.ArticlesBean, BaseViewHolder> {

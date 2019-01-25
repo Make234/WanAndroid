@@ -22,4 +22,8 @@
     <string name="article_list">文章列表</string>
     <string name="out_login">退出登录</string>
     <string name="collect_list">收藏列表</string>
+    <string name="clear_history">清空输入历史</string>
+    <string name="title_search">搜索</string>
+    <string name="please_input">请输入</string>
+    <string name="history">历史记录</string>
 </resources>

@@ -10,7 +10,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/22
  */
 public class ProjectViewModel extends BaseViewModel<ProjectTitle> {

@@ -1,5 +1,6 @@
 package com.zyh.wanandroid.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,7 +35,7 @@ import java.util.List;
  * @author zyh
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    ActivityMainBinding dataBinding;
+    ActivityMainBinding mBinding;
     List<Fragment> mFragmentList;
     private long exitTime;
     private static final int DOUBLE_CLICK = 2000;
@@ -43,14 +44,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initTitle();
         initFragment();
         initView();
     }
 
     private void initView() {
-        dataBinding.bnv.setOnNavigationItemSelectedListener(this);
+        mBinding.bnv.setOnNavigationItemSelectedListener(this);
         supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.vp, mFragmentList.get(0));
@@ -63,19 +64,27 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void initTitle() {
-        dataBinding.toolbar.getLeftImageView().setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
-        dataBinding.toolbar.getLeftImageView().setOnClickListener(new BaseOnClickListener() {
+        mBinding.toolbar.getLeftImageView().setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
+        mBinding.toolbar.getLeftImageView().setOnClickListener(new BaseOnClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
                 int leftDrawer = Gravity.START;
-                if (dataBinding.drawerLayout.isDrawerOpen(leftDrawer)) {
-                    dataBinding.drawerLayout.closeDrawer(leftDrawer);
+                if (mBinding.drawerLayout.isDrawerOpen(leftDrawer)) {
+                    mBinding.drawerLayout.closeDrawer(leftDrawer);
                 } else {
-                    dataBinding.drawerLayout.openDrawer(leftDrawer);
+                    mBinding.drawerLayout.openDrawer(leftDrawer);
                 }
             }
         });
-        dataBinding.toolbar.getCenterTextView().setText(getString(R.string.title_home));
+        mBinding.toolbar.getCenterTextView().setText(getString(R.string.title_home));
+        mBinding.toolbar.getRightImageView().setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_search));
+        mBinding.toolbar.getRightImageView().setOnClickListener(new BaseOnClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initFragment() {
@@ -92,10 +101,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        if (dataBinding == null) {
+        if (mBinding == null) {
             return false;
         }
-        TextView centerTextView = dataBinding.toolbar.getCenterTextView();
+        TextView centerTextView = mBinding.toolbar.getCenterTextView();
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 showFragment(0);

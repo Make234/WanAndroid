@@ -10,7 +10,7 @@ import com.zyh.wanandroid.fragment.ProjectListFragment;
 import java.util.ArrayList;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/23
  */
 public class ProjectPagerAdapter extends FragmentPagerAdapter {

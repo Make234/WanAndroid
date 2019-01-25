@@ -19,6 +19,7 @@
                 android:layout_height="48dp"
                 app:centerTextColor="@color/white"
                 app:fillStatusBar="true"
+                app:rightType="imageView"
                 app:toolbarBackgroundColor="@color/colorPrimaryDark"
                 app:toolbarHeight="48dp" />
 

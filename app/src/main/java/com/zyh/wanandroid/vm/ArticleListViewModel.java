@@ -10,7 +10,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/22
  */
 public class ArticleListViewModel extends BaseViewModel<HomePageDetail> {
@@ -184,4 +184,36 @@ public class ArticleListViewModel extends BaseViewModel<HomePageDetail> {
         }, id, originId);
     }
 
+
+    public void getSearchList(int page, String key) {
+        HttpHelper.getInstance().getSearchList(new Observer<ResultBean<HomePageBean>>() {
+            Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onNext(ResultBean<HomePageBean> resultListBean) {
+                ArticleListViewModel.this.hideLoading();
+                if (resultListBean.getErrorCode() == ResultBean.SUCCESS) {
+                    ArticleListViewModel.this.onSuccess(resultListBean.getData().getData());
+                } else {
+                    ArticleListViewModel.this.onError(resultListBean.getErrorMsg());
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                d.dispose();
+                ArticleListViewModel.this.onError(e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                d.dispose();
+            }
+        }, page, key);
+    }
 }

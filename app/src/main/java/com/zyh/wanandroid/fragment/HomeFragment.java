@@ -29,7 +29,7 @@ import java.util.List;
  * @date 2019/1/16
  */
 public class HomeFragment extends BaseFragment {
-    FragmentHomeBinding dataBinding;
+    FragmentHomeBinding mBinding;
     HomePageViewModel viewModel;
     int page = 0;
     private List<HomePageDetail> mList;
@@ -40,8 +40,8 @@ public class HomeFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        return dataBinding.getRoot();
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        return mBinding.getRoot();
     }
 
     @Override
@@ -56,10 +56,10 @@ public class HomeFragment extends BaseFragment {
         }
         mList = new ArrayList<>();
         adapter = new HomePageAdapter(mList, false);
-        dataBinding.listView.setAdapter(adapter);
-        dataBinding.listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dataBinding.refreshLayout.setOnLoadmoreListener(refreshLayout -> viewModel.getHomePageList(page));
-        dataBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+        mBinding.listView.setAdapter(adapter);
+        mBinding.listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.refreshLayout.setOnLoadmoreListener(refreshLayout -> viewModel.getHomePageList(page));
+        mBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             page = 0;
             viewModel.getHomePageList(page);
         });
@@ -78,7 +78,7 @@ public class HomeFragment extends BaseFragment {
                 viewModel.collect(mList.get(position).getId());
             }
         });
-        dataBinding.banner.setOnItemClickListener(position -> {
+        mBinding.banner.setOnItemClickListener(position -> {
             if (mBannerList != null && mBannerList.size() > position) {
                 Banner banner = mBannerList.get(position);
                 Intent intent = new Intent(getContext(), WebActivity.class);
@@ -87,22 +87,22 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        dataBinding.multiModeView.setOnErrorClick(view -> {
-            dataBinding.multiModeView.showLoading();
+        mBinding.multiModeView.setOnErrorClick(view -> {
+            mBinding.multiModeView.showLoading();
             page = 0;
             viewModel.getHomePageList(page);
             viewModel.getBannerUrls();
         });
 
-        dataBinding.multiModeView.setOnNetWorkClick(view -> {
-            dataBinding.multiModeView.showLoading();
+        mBinding.multiModeView.setOnNetWorkClick(view -> {
+            mBinding.multiModeView.showLoading();
             page = 0;
             viewModel.getHomePageList(page);
             viewModel.getBannerUrls();
         });
 
-        dataBinding.multiModeView.setOnNoDataClick(view -> {
-            dataBinding.multiModeView.showLoading();
+        mBinding.multiModeView.setOnNoDataClick(view -> {
+            mBinding.multiModeView.showLoading();
             page = 0;
             viewModel.getHomePageList(page);
             viewModel.getBannerUrls();
@@ -118,9 +118,9 @@ public class HomeFragment extends BaseFragment {
     public void onError(String msg) {
         ToastUtils.toastShort(msg);
         if (NetWorkUtils.isNetworkConnected()) {
-            dataBinding.multiModeView.showError();
+            mBinding.multiModeView.showError();
         } else {
-            dataBinding.multiModeView.showNetWork();
+            mBinding.multiModeView.showNetWork();
         }
     }
 
@@ -144,10 +144,10 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onSuccess(List data, int type) {
         hideLoading();
-        if (dataBinding == null || adapter == null || data == null) {
-            if (dataBinding != null) {
-                dataBinding.refreshLayout.finishRefresh(false);
-                dataBinding.refreshLayout.finishLoadmore(false);
+        if (mBinding == null || adapter == null || data == null) {
+            if (mBinding != null) {
+                mBinding.refreshLayout.finishRefresh(false);
+                mBinding.refreshLayout.finishLoadmore(false);
             }
 
             return;
@@ -159,7 +159,7 @@ public class HomeFragment extends BaseFragment {
                 String imagePath = ((Banner) data.get(i)).getImagePath();
                 imgUrl.add(imagePath);
             }
-            dataBinding.banner.setImagesUrl(imgUrl);
+            mBinding.banner.setImagesUrl(imgUrl);
 
         } else if (type == DATA2) {
             if (page == 0) {
@@ -167,38 +167,38 @@ public class HomeFragment extends BaseFragment {
             }
 
             if (page == 0 && data.isEmpty()) {
-                dataBinding.multiModeView.showEmpty();
+                mBinding.multiModeView.showEmpty();
                 return;
             }
             int pageSize = 20;
             if (data.size() < pageSize) {
                 adapter.setFooterView(View.inflate(getActivity(), R.layout.coupon_footer, null));
-                dataBinding.refreshLayout.setEnableLoadmore(false);
+                mBinding.refreshLayout.setEnableLoadmore(false);
             } else {
-                dataBinding.refreshLayout.setEnableLoadmore(true);
+                mBinding.refreshLayout.setEnableLoadmore(true);
                 adapter.removeAllFooterView();
             }
             page++;
             mList.addAll(data);
             adapter.notifyDataSetChanged();
-            dataBinding.refreshLayout.finishRefresh(true);
-            dataBinding.refreshLayout.finishLoadmore(true);
+            mBinding.refreshLayout.finishRefresh(true);
+            mBinding.refreshLayout.finishLoadmore(true);
         }
     }
 
     @Override
     public void showLoading() {
-        if (dataBinding != null) {
-            dataBinding.refreshLayout.setVisibility(View.GONE);
-            dataBinding.multiModeView.showLoading();
+        if (mBinding != null) {
+            mBinding.refreshLayout.setVisibility(View.GONE);
+            mBinding.multiModeView.showLoading();
         }
     }
 
     @Override
     public void hideLoading() {
-        if (dataBinding != null) {
-            dataBinding.refreshLayout.setVisibility(View.VISIBLE);
-            dataBinding.multiModeView.setVisibility(View.GONE);
+        if (mBinding != null) {
+            mBinding.refreshLayout.setVisibility(View.VISIBLE);
+            mBinding.multiModeView.setVisibility(View.GONE);
         }
     }
 

@@ -143,7 +143,7 @@ public class BaseToolbar extends RelativeLayout implements View.OnClickListener 
             leftDrawable = array.getResourceId(R.styleable.BaseToolbar_leftDrawable, DefaultValues.DEFAULT_NONE_RES);
             leftDrawablePadding = array.getDimension(R.styleable.BaseToolbar_leftDrawablePadding, DefaultValues.DEFAULT_DRAWABLE_PADDING);
         } else if (leftType == DefaultValues.TYPE_IMAGE_VIEW) {
-            leftImageResource = array.getResourceId(R.styleable.BaseToolbar_leftImageResource, R.drawable.ic_back_black);
+            leftImageResource = array.getResourceId(R.styleable.BaseToolbar_leftImageResource, R.drawable.ic_back);
         } else if (leftType == DefaultValues.TYPE_CUSTOM_VIEW) {
             leftCustomViewRes = array.getResourceId(R.styleable.BaseToolbar_leftCustomView, DefaultValues.DEFAULT_NONE_RES);
         }

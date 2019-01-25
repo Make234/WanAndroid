@@ -7,7 +7,7 @@ import com.zyh.wanandroid.utils.ToastUtils;
 import java.util.List;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/23
  */
 public class BaseFragment<T> extends Fragment implements IBaseView<T> {

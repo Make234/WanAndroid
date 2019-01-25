@@ -172,4 +172,13 @@ public class HttpHelper {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+
+    public void getSearchList(Observer<ResultBean<HomePageBean>> observer, int page, String key) {
+        httpService.getSearchList(page, key)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

@@ -14,7 +14,7 @@ import com.zyh.wanandroid.bean.Knowledge;
 import java.util.List;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/17
  */
 public class KnowledgeAdapter extends BaseQuickAdapter<Knowledge, BaseViewHolder> {

@@ -27,7 +27,7 @@ import static com.zyh.wanandroid.activity.ArticleListActivity.COLLECT_LIST;
 import static com.zyh.wanandroid.activity.ArticleListActivity.TITLE;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/21
  */
 public class DrawerFragment extends BaseFragment<ResultBean> implements View.OnClickListener {

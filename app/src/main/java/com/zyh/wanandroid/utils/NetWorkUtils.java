@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import com.zyh.wanandroid.MyApplication;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/24
  */
 public class NetWorkUtils {

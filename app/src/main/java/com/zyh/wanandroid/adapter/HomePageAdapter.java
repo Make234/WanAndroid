@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/17
  */
 public class HomePageAdapter extends BaseQuickAdapter<HomePageDetail, BaseViewHolder> {

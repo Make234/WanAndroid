@@ -1,7 +1,7 @@
 package com.zyh.wanandroid.bean;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/22
  */
 public class Banner {
