@@ -1,13 +1,17 @@
 package com.zyh.wanandroid.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.zyh.wanandroid.R;
 import com.zyh.wanandroid.base.BaseActivity;
@@ -37,12 +41,17 @@ public class WebActivity extends BaseActivity {
         mBinding.toolbar.getLeftImageView().setOnClickListener(new BaseOnClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                finish();
+                if (mBinding.webView.canGoBack()) {
+                    mBinding.webView.goBack();
+                } else {
+                    finish();
+                }
             }
         });
         mBinding.toolbar.getCenterTextView().setText(mTitle);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         mBinding.webView.loadUrl(mUrl);
         mBinding.webView.setWebChromeClient(new WebChromeClient() {
@@ -55,6 +64,30 @@ public class WebActivity extends BaseActivity {
                 }
             }
         });
+
+        mBinding.webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        WebSettings webSettings = mBinding.webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+
+        webSettings.setSupportZoom(false);
+        webSettings.setBuiltInZoomControls(false);
+        webSettings.setDisplayZoomControls(false);
+
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setDefaultTextEncodingName("utf-8");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
     }
 
     private void initParameter() {
