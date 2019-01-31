@@ -4,17 +4,18 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.zyh.wanandroid.R;
+import com.zyh.wanandroid.base.BaseActivity;
 import com.zyh.wanandroid.databinding.ActivitySearchBinding;
 import com.zyh.wanandroid.utils.DimenUtil;
 import com.zyh.wanandroid.utils.SharedPreferencesUtil;
 import com.zyh.wanandroid.utils.ToastUtils;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 import java.util.ArrayList;
 
@@ -25,8 +26,8 @@ import static com.zyh.wanandroid.activity.ArticleListActivity.TYPE;
 /**
  * @author zyh
  */
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-    ActivitySearchBinding mBinding;
+public class SearchActivity extends BaseActivity implements View.OnClickListener {
+    private ActivitySearchBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             int padding = DimenUtil.dp2px(this, 12);
             TextView textView = new TextView(this);
             textView.setTextColor(ContextCompat.getColor(this, R.color.white));
-            textView.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.history_bg));
+            textView.setBackgroundResource(R.drawable.history_bg);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DimenUtil.sp2px(this, 14));
             textView.setGravity(Gravity.CENTER);
 

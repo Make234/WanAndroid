@@ -19,6 +19,7 @@ import com.zyh.wanandroid.databinding.FragmentKnowledgeBinding;
 import com.zyh.wanandroid.utils.NetWorkUtils;
 import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.KnowledgeViewModel;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +100,6 @@ public class KnowledgeFragment extends BaseFragment<Knowledge> {
     }
 
     @Override
-    public void onSuccess(Knowledge data) {
-
-    }
-
-    @Override
     public void onSuccess(List<Knowledge> data) {
         if (data.isEmpty()) {
             mBinding.multiModeView.showEmpty();
@@ -114,32 +110,7 @@ public class KnowledgeFragment extends BaseFragment<Knowledge> {
     }
 
     @Override
-    public void onError(String msg) {
-        if (NetWorkUtils.isNetworkConnected()) {
-            mBinding.multiModeView.showError();
-        } else {
-            mBinding.multiModeView.showNetWork();
-        }
-        ToastUtils.toastShort(msg);
+    public MultiModeView getMultiModeView() {
+        return mBinding.multiModeView;
     }
-
-    @Override
-    public void complete() {
-        hideLoading();
-    }
-
-    @Override
-    public void showLoading() {
-        if (mBinding != null) {
-            mBinding.multiModeView.showLoading();
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (mBinding != null) {
-            mBinding.multiModeView.setVisibility(View.GONE);
-        }
-    }
-
 }

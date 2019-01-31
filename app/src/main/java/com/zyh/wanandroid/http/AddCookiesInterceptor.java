@@ -3,9 +3,6 @@ package com.zyh.wanandroid.http;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.zyh.wanandroid.bean.RegisterLogin;
-import com.zyh.wanandroid.utils.SharedPreferencesUtil;
-
 import java.io.IOException;
 import java.util.Locale;
 
@@ -24,11 +21,6 @@ class AddCookiesInterceptor implements Interceptor {
         Request.Builder builder = chain.request().newBuilder();
         //请求发起的时间
         long t1 = System.nanoTime();
-        RegisterLogin user = SharedPreferencesUtil.getInstance().getUser();
-        if (user != null) {
-            builder.addHeader("Cookie", "loginUserName=" + user.getUsername());
-            builder.addHeader("Cookie", "loginUserPassword=" + user.getPassword());
-        }
         //收到响应的时间
         Request request = builder.build();
         long t2 = System.nanoTime();

@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/1/17
  */
 public class NavigationLeftAdapter extends BaseQuickAdapter<Navigation, BaseViewHolder> {
-    private int index = 0;
+    private int mIndex = 0;
 
     public NavigationLeftAdapter(List<Navigation> mList) {
         super(R.layout.item_navigation_left, mList);
@@ -26,7 +26,7 @@ public class NavigationLeftAdapter extends BaseQuickAdapter<Navigation, BaseView
     protected void convert(BaseViewHolder helper, Navigation item) {
         int position = helper.getAdapterPosition();
         ((TextView) helper.getView(R.id.tv_title)).setText(item.getName());
-        if (index == position) {
+        if (mIndex == position) {
             helper.getView(R.id.tv_title).setBackgroundColor(ContextCompat.getColor(MyApplication.getInstance(), R.color.colorPrimary));
         } else {
             helper.getView(R.id.tv_title).setBackgroundColor(ContextCompat.getColor(MyApplication.getInstance(), R.color.white));
@@ -34,6 +34,6 @@ public class NavigationLeftAdapter extends BaseQuickAdapter<Navigation, BaseView
     }
 
     public void setIndex(int index) {
-        this.index = index;
+        this.mIndex = index;
     }
 }

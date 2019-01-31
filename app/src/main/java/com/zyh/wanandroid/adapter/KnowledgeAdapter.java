@@ -18,7 +18,7 @@ import java.util.List;
  * @date 2019/1/17
  */
 public class KnowledgeAdapter extends BaseQuickAdapter<Knowledge, BaseViewHolder> {
-    private OnItemChildClickListener onItemChildClickListener;
+    private OnItemChildClickListener mOnItemChildClickListener;
 
     public KnowledgeAdapter(List<Knowledge> mList) {
         super(R.layout.item_knowledge, mList);
@@ -45,7 +45,7 @@ public class KnowledgeAdapter extends BaseQuickAdapter<Knowledge, BaseViewHolder
             content.setSpan(new UnderlineSpan(), 0, name.length(), SpannableString.SPAN_INCLUSIVE_INCLUSIVE);
             textView.setText(content);
 
-            child.setOnClickListener(v -> onItemChildClickListener.onItemChildClick(this, v, tree.getId()));
+            child.setOnClickListener(v -> mOnItemChildClickListener.onItemChildClick(this, v, tree.getId()));
 
             layoutFlow.addView(child);
         }
@@ -54,6 +54,6 @@ public class KnowledgeAdapter extends BaseQuickAdapter<Knowledge, BaseViewHolder
 
     @Override
     public void setOnItemChildClickListener(OnItemChildClickListener onItemChildClickListener) {
-        this.onItemChildClickListener = onItemChildClickListener;
+        this.mOnItemChildClickListener = onItemChildClickListener;
     }
 }

@@ -17,16 +17,19 @@ import com.zyh.wanandroid.R;
 import com.zyh.wanandroid.base.BaseActivity;
 import com.zyh.wanandroid.databinding.ActivityWebBinding;
 import com.zyh.wanandroid.utils.BaseOnClickListener;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 /**
  * @author zyh
  */
 public class WebActivity extends BaseActivity {
-    private String mUrl;
-    private String mTitle;
     public static final String URL = "url";
     public static final String TITLE = "title";
+
     private ActivityWebBinding mBinding;
+
+    private String mUrl;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

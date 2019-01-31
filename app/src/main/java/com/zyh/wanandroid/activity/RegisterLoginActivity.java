@@ -14,6 +14,7 @@ import com.zyh.wanandroid.utils.BaseOnClickListener;
 import com.zyh.wanandroid.utils.SharedPreferencesUtil;
 import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.RegisterLoginViewModel;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +25,14 @@ import java.util.List;
 public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implements View.OnClickListener, TextWatcher {
     private static final int LOGIN = 1;
     private static final int REGISTER = 2;
-    ActivityRegisterLoginBinding mBinding;
-    String passWord;
+
+    private ActivityRegisterLoginBinding mBinding;
+
+    private String mPassword;
     /**
      * LOGIN 登陆 REGISTER 注册
      */
-    int type;
+    private int mType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
     }
 
     private void initToolbar() {
-        type = LOGIN;
+        mType = LOGIN;
         mBinding.toolbar.getLeftImageView().setOnClickListener(new BaseOnClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
@@ -63,14 +66,14 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_register:
-                if (type == LOGIN) {
-                    type = REGISTER;
+                if (mType == LOGIN) {
+                    mType = REGISTER;
                     mBinding.tilPswAgain.setVisibility(View.VISIBLE);
                     mBinding.tvRegister.setText(getString(R.string.go_login));
                     mBinding.tvOk.setText("去注册");
                     mBinding.toolbar.getCenterTextView().setText(("注册"));
                 } else {
-                    type = LOGIN;
+                    mType = LOGIN;
                     mBinding.tilPswAgain.setVisibility(View.GONE);
                     mBinding.tvRegister.setText(getString(R.string.go_register));
                     mBinding.tvOk.setText("去登陆");
@@ -78,7 +81,7 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
                 }
                 break;
             case R.id.tv_ok:
-                checkStyle(type == LOGIN);
+                checkStyle(mType == LOGIN);
                 break;
             default:
                 break;
@@ -98,8 +101,8 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
             mBinding.tilPsw.setError("密码为空");
             return;
         }
-        passWord = pswText.toString();
-        if (passWord.isEmpty()) {
+        mPassword = pswText.toString();
+        if (mPassword.isEmpty()) {
             mBinding.tilPsw.setError("密码为空");
             mBinding.tetPsw.requestFocus();
             return;
@@ -114,7 +117,7 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
         if (!isLogin) {
             Editable pswAgainText = mBinding.tetPswAgain.getText();
             if (pswAgainText == null || pswAgainText.toString().isEmpty()
-                    || !pswAgainText.toString().equals(passWord)) {
+                    || !pswAgainText.toString().equals(mPassword)) {
                 mBinding.tilPswAgain.setError("两次密码输入不一致，请重新输入");
                 mBinding.tetPswAgain.requestFocus();
                 return;
@@ -124,19 +127,19 @@ public class RegisterLoginActivity extends BaseActivity<RegisterLogin> implement
         viewModel.attachView(this);
         HashMap<String, String> map = new HashMap<>(16);
         map.put("username", userText.toString());
-        map.put("password", passWord);
+        map.put("password", mPassword);
         showLoading();
         if (isLogin) {
             viewModel.login(map);
         } else {
-            map.put("repassword", passWord);
+            map.put("repassword", mPassword);
             viewModel.register(map);
         }
     }
 
     @Override
     public void onSuccess(RegisterLogin data) {
-        data.setPassword(passWord);
+        data.setPassword(mPassword);
         SharedPreferencesUtil.getInstance().saveUser(data);
         finish();
     }

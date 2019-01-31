@@ -1,5 +1,7 @@
 package com.zyh.wanandroid.base;
 
+import com.zyh.wanandroid.widgets.MultiModeView;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ public interface IBaseView<T> {
 
     int DATA1 = 1;
     int DATA2 = 2;
+
     /**
      * 成功回调
      *
@@ -62,5 +65,27 @@ public interface IBaseView<T> {
      */
     void hideLoading();
 
+    /**
+     * 空布局
+     */
+    void showEmpty();
+
+    /**
+     * 网络未连接
+     */
+    void showNetWorkError();
+
+    /**
+     * 请求错误
+     */
+    void showError();
+
+
+    /**
+     * 多模式view
+     *
+     * @return MultiModeView 多模式view
+     */
+    MultiModeView getMultiModeView();
 
 }

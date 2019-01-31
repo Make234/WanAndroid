@@ -17,9 +17,9 @@ import com.zyh.wanandroid.base.BaseFragment;
 import com.zyh.wanandroid.bean.Banner;
 import com.zyh.wanandroid.bean.HomePageDetail;
 import com.zyh.wanandroid.databinding.FragmentHomeBinding;
-import com.zyh.wanandroid.utils.NetWorkUtils;
 import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.HomePageViewModel;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,16 +115,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void onError(String msg) {
-        ToastUtils.toastShort(msg);
-        if (NetWorkUtils.isNetworkConnected()) {
-            mBinding.multiModeView.showError();
-        } else {
-            mBinding.multiModeView.showNetWork();
-        }
-    }
-
-    @Override
     public void onSuccess(Object data) {
         HomePageDetail detail = (HomePageDetail) data;
         if (data != null) {
@@ -187,23 +177,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void showLoading() {
-        if (mBinding != null) {
-            mBinding.refreshLayout.setVisibility(View.GONE);
-            mBinding.multiModeView.showLoading();
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (mBinding != null) {
-            mBinding.refreshLayout.setVisibility(View.VISIBLE);
-            mBinding.multiModeView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void complete() {
-
+    public MultiModeView getMultiModeView() {
+        return mBinding.multiModeView;
     }
 }

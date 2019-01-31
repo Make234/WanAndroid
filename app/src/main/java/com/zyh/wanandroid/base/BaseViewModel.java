@@ -1,5 +1,7 @@
 package com.zyh.wanandroid.base;
 
+import com.zyh.wanandroid.widgets.MultiModeView;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -88,5 +90,25 @@ public abstract class BaseViewModel<T> implements IBaseViewModel, IBaseView<T> {
         if (isNotEmpty()) {
             getView().onSuccess(data);
         }
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void showNetWorkError() {
+
+    }
+
+    @Override
+    public void showEmpty() {
+
+    }
+
+    @Override
+    public MultiModeView getMultiModeView() {
+        return null;
     }
 }

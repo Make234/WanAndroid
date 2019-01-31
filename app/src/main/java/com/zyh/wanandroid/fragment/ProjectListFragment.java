@@ -16,9 +16,9 @@ import com.zyh.wanandroid.adapter.ProjectListAdapter;
 import com.zyh.wanandroid.base.BaseFragment;
 import com.zyh.wanandroid.bean.Project;
 import com.zyh.wanandroid.databinding.FragmentProjectListBinding;
-import com.zyh.wanandroid.utils.NetWorkUtils;
 import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.ProjectListViewModel;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,22 +192,10 @@ public class ProjectListFragment extends BaseFragment {
         super.showLoading();
         mBinding.refreshLayout.finishRefresh(false);
         mBinding.refreshLayout.finishLoadmore(false);
-        mBinding.multiModeView.showLoading();
     }
 
     @Override
-    public void onError(String msg) {
-        super.onError(msg);
-        if (NetWorkUtils.isNetworkConnected()) {
-            mBinding.multiModeView.showError();
-        } else {
-            mBinding.multiModeView.showNetWork();
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        super.hideLoading();
-        mBinding.multiModeView.setVisibility(View.GONE);
+    public MultiModeView getMultiModeView() {
+        return mBinding.multiModeView;
     }
 }

@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zyh.wanandroid.MyApplication;
 import com.zyh.wanandroid.R;
 import com.zyh.wanandroid.bean.HomePageDetail;
+import com.zyh.wanandroid.utils.SharedPreferencesUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -19,11 +20,11 @@ import java.util.List;
  */
 public class HomePageAdapter extends BaseQuickAdapter<HomePageDetail, BaseViewHolder> {
 
-    private boolean isCollect;
+    private boolean mIsCollect;
 
     public HomePageAdapter(List<HomePageDetail> mList, boolean isCollect) {
         super(R.layout.item_homepage, mList);
-        this.isCollect = isCollect;
+        this.mIsCollect = isCollect;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class HomePageAdapter extends BaseQuickAdapter<HomePageDetail, BaseViewHo
             helper.setVisible(R.id.tv_type, false);
         }
         ImageView ivCollection = helper.getView(R.id.iv_collection);
-        if (item.getCollect() || isCollect) {
+        if (item.getCollect() || mIsCollect && SharedPreferencesUtil.getInstance().getUser() != null) {
             item.setCollect(true);
             ivCollection.setImageDrawable(ContextCompat.getDrawable(MyApplication.getInstance(), R.drawable.ic_collection));
         } else {

@@ -14,7 +14,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zyh.wanandroid.MyApplication;
@@ -35,11 +34,15 @@ import java.util.List;
  * @author zyh
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    ActivityMainBinding mBinding;
-    List<Fragment> mFragmentList;
-    private long exitTime;
+
     private static final int DOUBLE_CLICK = 2000;
-    private FragmentManager supportFragmentManager;
+
+    private ActivityMainBinding mBinding;
+    private FragmentManager mSupportFragmentManager;
+
+    private List<Fragment> mFragmentList;
+
+    private long mExitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +55,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void initView() {
         mBinding.bnv.setOnNavigationItemSelectedListener(this);
-        supportFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        if (mSupportFragmentManager == null) {
+            mSupportFragmentManager = getSupportFragmentManager();
+        }
+        FragmentTransaction fragmentTransaction = mSupportFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.vp, mFragmentList.get(0));
         fragmentTransaction.add(R.id.vp, mFragmentList.get(1));
         fragmentTransaction.add(R.id.vp, mFragmentList.get(2));
         fragmentTransaction.add(R.id.vp, mFragmentList.get(3));
         fragmentTransaction.add(R.id.ll_drawer, new DrawerFragment());
         fragmentTransaction.commitAllowingStateLoss();
-        showFragment(0);
+        showFragment(0, getString(R.string.title_home));
     }
 
     private void initTitle() {
@@ -88,7 +93,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void initFragment() {
-        mFragmentList = new ArrayList<>();
+        if (mFragmentList == null) {
+            mFragmentList = new ArrayList<>();
+        } else {
+            mFragmentList.clear();
+        }
         HomeFragment homeFragment = new HomeFragment();
         KnowledgeFragment knowledgeFragment = new KnowledgeFragment();
         NavigationFragment navigationFragment = new NavigationFragment();
@@ -104,23 +113,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (mBinding == null) {
             return false;
         }
-        TextView centerTextView = mBinding.toolbar.getCenterTextView();
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
-                showFragment(0);
-                centerTextView.setText(getString(R.string.title_home));
+                showFragment(0, getString(R.string.title_home));
                 return true;
             case R.id.navigation_knowledge:
-                showFragment(1);
-                centerTextView.setText(getString(R.string.knowledge));
+                showFragment(1, getString(R.string.knowledge));
                 return true;
             case R.id.navigation_navigation:
-                showFragment(2);
-                centerTextView.setText(getString(R.string.navigation));
+                showFragment(2, getString(R.string.navigation));
                 return true;
             case R.id.navigation_project:
-                showFragment(3);
-                centerTextView.setText(getString(R.string.project));
+                showFragment(3, getString(R.string.project));
                 return true;
             default:
                 break;
@@ -128,8 +132,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return false;
     }
 
-    private void showFragment(int position) {
-        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+    private void showFragment(int position, String title) {
+        if (mSupportFragmentManager == null) {
+            mSupportFragmentManager = getSupportFragmentManager();
+        }
+        FragmentTransaction fragmentTransaction = mSupportFragmentManager.beginTransaction();
         fragmentTransaction.show(mFragmentList.get(position));
         for (int i = 0; i < mFragmentList.size(); i++) {
             if (position == i) {
@@ -139,6 +146,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         }
         fragmentTransaction.commit();
+        mBinding.toolbar.getCenterTextView().setText(title);
     }
 
     @Override
@@ -150,11 +158,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > DOUBLE_CLICK) {
+            if ((System.currentTimeMillis() - mExitTime) > DOUBLE_CLICK) {
                 Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
+                mExitTime = System.currentTimeMillis();
             } else {
-                //关闭在线状态上报服务
                 MyApplication.getInstance().cleanActivity();
                 finish();
                 System.exit(0);

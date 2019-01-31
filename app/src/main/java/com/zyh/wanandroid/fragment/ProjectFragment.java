@@ -13,8 +13,8 @@ import com.zyh.wanandroid.adapter.ProjectPagerAdapter;
 import com.zyh.wanandroid.base.BaseFragment;
 import com.zyh.wanandroid.bean.ProjectTitle;
 import com.zyh.wanandroid.databinding.FragmentProjectBinding;
-import com.zyh.wanandroid.utils.NetWorkUtils;
 import com.zyh.wanandroid.vm.ProjectViewModel;
+import com.zyh.wanandroid.widgets.MultiModeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,26 +107,7 @@ public class ProjectFragment extends BaseFragment<ProjectTitle> {
     }
 
     @Override
-    public void onError(String msg) {
-        super.onError(msg);
-        mBinding.multiModeView.setVisibility(View.VISIBLE);
-        if (NetWorkUtils.isNetworkConnected()) {
-            mBinding.multiModeView.showError();
-        } else {
-            mBinding.multiModeView.showNetWork();
-        }
-    }
-
-    @Override
-    public void showLoading() {
-        super.showLoading();
-        mBinding.multiModeView.setVisibility(View.VISIBLE);
-        mBinding.multiModeView.showLoading();
-    }
-
-    @Override
-    public void hideLoading() {
-        super.hideLoading();
-        mBinding.multiModeView.setVisibility(View.GONE);
+    public MultiModeView getMultiModeView() {
+        return mBinding.multiModeView;
     }
 }

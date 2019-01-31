@@ -17,10 +17,9 @@ import com.zyh.wanandroid.adapter.NavigationRightAdapter;
 import com.zyh.wanandroid.base.BaseFragment;
 import com.zyh.wanandroid.bean.Navigation;
 import com.zyh.wanandroid.databinding.FragmentNavigationBinding;
-import com.zyh.wanandroid.utils.NetWorkUtils;
-import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.NavigationViewModel;
 import com.zyh.wanandroid.widgets.FlowLayoutManager;
+import com.zyh.wanandroid.widgets.MultiModeView;
 import com.zyh.wanandroid.widgets.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -116,11 +115,6 @@ public class NavigationFragment extends BaseFragment<Navigation> {
     }
 
     @Override
-    public void onSuccess(Navigation data) {
-        hideLoading();
-    }
-
-    @Override
     public void onSuccess(List<Navigation> data) {
         hideLoading();
         if (data == null || data.isEmpty()) {
@@ -137,27 +131,7 @@ public class NavigationFragment extends BaseFragment<Navigation> {
     }
 
     @Override
-    public void onError(String msg) {
-        if (NetWorkUtils.isNetworkConnected()) {
-            mBinding.multiModeView.showError();
-        } else {
-            mBinding.multiModeView.showNetWork();
-        }
-        ToastUtils.toastShort(msg);
-    }
-
-    @Override
-    public void complete() {
-        hideLoading();
-    }
-
-    @Override
-    public void showLoading() {
-        mBinding.multiModeView.showLoading();
-    }
-
-    @Override
-    public void hideLoading() {
-        mBinding.multiModeView.setVisibility(View.GONE);
+    public MultiModeView getMultiModeView() {
+        return mBinding.multiModeView;
     }
 }

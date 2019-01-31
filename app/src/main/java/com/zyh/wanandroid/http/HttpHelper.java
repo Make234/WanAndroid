@@ -35,6 +35,7 @@ public class HttpHelper {
         OkHttpClient client = new OkHttpClient.Builder()
                 //统一处理get形式的请求数据
                 .addInterceptor(new AddCookiesInterceptor())
+                .cookieJar(new CookiesManager())
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .build();
 

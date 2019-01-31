@@ -2,7 +2,8 @@ package com.zyh.wanandroid.base;
 
 /**
  * 弱引用接口
- * Created by 18044075 on 2018/5/30.
+ *
+ * @author zyh
  */
 public interface IBaseViewModel<V extends IBaseView> {
 

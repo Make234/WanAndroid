@@ -19,6 +19,7 @@ import com.zyh.wanandroid.activity.RegisterLoginActivity;
 import com.zyh.wanandroid.base.BaseFragment;
 import com.zyh.wanandroid.bean.ResultBean;
 import com.zyh.wanandroid.databinding.FragmentDrawerBinding;
+import com.zyh.wanandroid.http.PersistentCookieStore;
 import com.zyh.wanandroid.utils.SharedPreferencesUtil;
 import com.zyh.wanandroid.utils.ToastUtils;
 import com.zyh.wanandroid.vm.DrawerViewModel;
@@ -88,6 +89,7 @@ public class DrawerFragment extends BaseFragment<ResultBean> implements View.OnC
                 DrawerViewModel viewModel = new DrawerViewModel();
                 viewModel.attachView(this);
                 viewModel.loginOut();
+                new PersistentCookieStore(MyApplication.getInstance()).removeAll();
                 break;
             case R.id.item_collection:
                 intent = new Intent(getContext(), ArticleListActivity.class);
@@ -112,26 +114,6 @@ public class DrawerFragment extends BaseFragment<ResultBean> implements View.OnC
         SharedPreferencesUtil.getInstance().clearUser();
         initUser();
         ToastUtils.toastShort("退出成功");
-    }
-
-
-    @Override
-    public void onError(String msg) {
-        hideLoading();
-        ToastUtils.toastShort(msg);
-    }
-
-
-    @Override
-    public void showLoading() {
-        super.showLoading();
-        mBinding.loadingProgress.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        super.hideLoading();
-        mBinding.loadingProgress.setVisibility(View.GONE);
     }
 
     @Override
