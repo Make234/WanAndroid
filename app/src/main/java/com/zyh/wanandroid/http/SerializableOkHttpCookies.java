@@ -8,7 +8,7 @@ import java.io.Serializable;
 import okhttp3.Cookie;
 
 /**
- * @author 88421876
+ * @author zyh
  * @date 2019/1/28
  */
 class SerializableOkHttpCookies implements Serializable {

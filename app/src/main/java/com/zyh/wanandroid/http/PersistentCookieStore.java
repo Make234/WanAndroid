@@ -2,7 +2,6 @@ package com.zyh.wanandroid.http;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
@@ -81,7 +80,6 @@ public class PersistentCookieStore {
 
         //讲cookies持久化到本地
         SharedPreferences.Editor prefsWriter = cookiePrefs.edit();
-//        prefsWriter.putString(url.host(), TextUtils.join(",", stringCookieConcurrentHashMap.keySet()));
         prefsWriter.putString(name, encodeCookie(new SerializableOkHttpCookies(cookie)));
         prefsWriter.apply();
     }
@@ -97,14 +95,14 @@ public class PersistentCookieStore {
         return ret;
     }
 
-    public boolean removeAll() {
+    public void removeAll() {
         SharedPreferences.Editor prefsWriter = cookiePrefs.edit();
         prefsWriter.clear();
         prefsWriter.apply();
         cookies.clear();
-        return true;
     }
 
+    @SuppressWarnings("unused")
     public boolean remove(HttpUrl url, Cookie cookie) {
         String name = getCookieToken(cookie);
 
@@ -119,9 +117,7 @@ public class PersistentCookieStore {
             if (cookiePrefs.contains(name)) {
                 prefsWriter.remove(name);
             }
-            prefsWriter.putString(url.host(), TextUtils.join(",", stringCookieConcurrentHashMap.keySet()));
             prefsWriter.apply();
-
             return true;
         } else {
             return false;
@@ -211,7 +207,8 @@ public class PersistentCookieStore {
     private byte[] hexStringToByteArray(String hexString) {
         double len = hexString.length();
         byte[] data = new byte[(int) Math.round(len / 2)];
-        for (int i = 0; i < len; i += 2) {
+        int size = 2;
+        for (int i = 0; i < len; i += size) {
             data[i / 2] = (byte) ((Character.digit(hexString.charAt(i), 16) << 4) + Character.digit(hexString.charAt(i + 1), 16));
         }
         return data;
